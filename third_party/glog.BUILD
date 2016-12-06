@@ -8,8 +8,8 @@ cc_library(
         "//external:gflags",
     ],
     includes = [
-        "repository/",
-        "repository/src",
+        ".",
+        "src",
     ],
     copts = [
         "-D_START_GOOGLE_NAMESPACE_='namespace google {'",
@@ -24,6 +24,9 @@ cc_library(
         "-DHAVE_INTTYPES_H",
         "-DHAVE_LIBPTHREAD",
         "-DHAVE_SYS_SYSCALL_H",
+        #"-DHAVE_LIBUNWIND_H",
+        "-DHAVE_LIB_GFLAGS",
+        #"-DHAVE_LIB_UNWIND",
         "-DHAVE_MEMORY_H",
         "-DHAVE_NAMESPACES",
         "-DHAVE_PREAD",
@@ -51,13 +54,13 @@ cc_library(
         #"-I/usr/local/include", # XXX import libunwind
     ],
     srcs = [
-        "repository/src/demangle.cc",
-        "repository/src/logging.cc",
-        "repository/src/raw_logging.cc",
-        "repository/src/signalhandler.cc",
-        "repository/src/symbolize.cc",
-        "repository/src/utilities.cc",
-        "repository/src/vlog_is_on.cc",
+        "src/demangle.cc",
+        "src/logging.cc",
+        "src/raw_logging.cc",
+        "src/signalhandler.cc",
+        "src/symbolize.cc",
+        "src/utilities.cc",
+        "src/vlog_is_on.cc",
         ":config_h",
         ":logging_h",
         ":raw_logging_h",
@@ -65,16 +68,16 @@ cc_library(
         ":vlog_is_on_h",
     ],
     hdrs = [
-        "repository/src/demangle.h",
-        "repository/src/mock-log.h",
-        "repository/src/stacktrace.h",
+        "src/demangle.h",
+        "src/mock-log.h",
+        "src/stacktrace.h",
         #"src/stacktrace_libunwind-inl.h",
-        "repository/src/symbolize.h",
-        "repository/src/utilities.h",
-        "repository/src/base/commandlineflags.h",
-        "repository/src/base/googleinit.h",
-        "repository/src/base/mutex.h",
-        "repository/src/glog/log_severity.h",
+        "src/symbolize.h",
+        "src/utilities.h",
+        "src/base/commandlineflags.h",
+        "src/base/googleinit.h",
+        "src/base/mutex.h",
+        "src/glog/log_severity.h",
     ],
     linkopts = [
         #"-pthread",
@@ -85,10 +88,10 @@ cc_library(
 genrule(
     name = "config_h",
     srcs = [
-        "repository/src/config.h.cmake.in",
+        "src/config.h.cmake.in",
     ],
     outs = [
-        "repository/config.h",
+        "config.h",
     ],
     cmd = "awk '{ gsub(/^#cmakedefine/, \"//cmakedefine\"); print; }' $(<) > $(@)",
 )
@@ -96,10 +99,10 @@ genrule(
 genrule(
     name = "logging_h",
     srcs = [
-        "repository/src/glog/logging.h.in",
+        "src/glog/logging.h.in",
     ],
     outs = [
-        "repository/glog/logging.h",
+        "glog/logging.h",
     ],
     cmd = "$(location :gen_sh) < $(<) > $(@)",
     tools = [":gen_sh"],
@@ -108,10 +111,10 @@ genrule(
 genrule(
     name = "raw_logging_h",
     srcs = [
-        "repository/src/glog/raw_logging.h.in",
+        "src/glog/raw_logging.h.in",
     ],
     outs = [
-        "repository/glog/raw_logging.h",
+        "glog/raw_logging.h",
     ],
     cmd = "$(location :gen_sh) < $(<) > $(@)",
     tools = [":gen_sh"],
@@ -120,10 +123,10 @@ genrule(
 genrule(
     name = "stl_logging_h",
     srcs = [
-        "repository/src/glog/stl_logging.h.in",
+        "src/glog/stl_logging.h.in",
     ],
     outs = [
-        "repository/glog/stl_logging.h",
+        "glog/stl_logging.h",
     ],
     cmd = "$(location :gen_sh) < $(<) > $(@)",
     tools = [":gen_sh"],
@@ -132,10 +135,10 @@ genrule(
 genrule(
     name = "vlog_is_on_h",
     srcs = [
-        "repository/src/glog/vlog_is_on.h.in",
+        "src/glog/vlog_is_on.h.in",
     ],
     outs = [
-        "repository/glog/vlog_is_on.h",
+        "glog/vlog_is_on.h",
     ],
     cmd = "$(location :gen_sh) < $(<) > $(@)",
     tools = [":gen_sh"],

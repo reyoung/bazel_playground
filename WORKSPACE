@@ -42,3 +42,15 @@ new_http_archive(
     strip_prefix = "pcre-8.39",
     build_file = "third_party/pcre.BUILD",
 )
+
+new_git_repository(
+  name = "glog_repo",
+  remote = "https://github.com/google/glog.git",
+  commit = "b6a5e0524c28178985f0d228e9eaa43808dbec3c",
+  build_file = "third_party/glog.BUILD"
+)
+
+bind(
+  name = "glog",
+  actual = "@glog_repo//:glog"
+)
